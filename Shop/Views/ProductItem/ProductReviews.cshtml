@@ -1,0 +1,60 @@
+﻿@model List<Shop.Models.ReviewProduct>
+
+<script type="text/javascript" async src="~/Scripts/js/Review.js"></script>
+<div class="tap-content" data-index="2">
+    <div class="customr-button hidden-sm hidden-md hidden-lg">Product reviews<i class="icon">></i> </div>
+    <div class="customr-container" style="display: none;">
+        <div class="product-container">
+            <div class="pr-header">
+                <h2 class="pr-title">Customer Reviews</h2>
+                <div class="pr-summary rte">
+                    <span class="pr-starrating pr-summary-starrating" aria-label="@ViewBag.sumSao of 5 stars" role="img">
+                        @for (int i = 0; i < @ViewBag.sumSao; i++)
+                        {
+                            <i class="pr-icon pr-icon-star" aria-hidden="true">@i+1</i>
+                        }
+
+                    </span>
+                    <span class="pr-summary-caption">
+                        <span class="pr-summary-actions-togglereviews">Based on @Model.Count() reviews</span>
+                    </span>
+                    <span class="pr-summary-actions">
+                        <a href="#" class="pr-summary-actions-newreview" onclick="toggleForm(@ViewBag.idSp);return false">Write a review</a>
+                    </span>
+                </div>
+            </div>
+            <div class="pr-content">
+                @{ Html.RenderAction("WriteReview", new { @idSp = ViewBag.idSp });}
+                <div class="pr-reviews" id="reviews_@ViewBag.idSp">
+                    @foreach (var pr in Model)
+                    {
+                        <div class="pr-review" id="pr-review-@pr.idbl">
+                            <div class="pr-review-header">
+                                <span class="pr-starratings pr-review-header-starratings" aria-label="@pr.sao of 5 stars" role="img">
+                                    @for (int i = 0; i < pr.sao; i++)
+                                    {
+                                        <i class="pr-icon pr-icon-star" aria-hidden="true">1</i>
+                                    }
+                                </span>
+                                <h3 class="pr-review-header-title">@pr.TitleText</h3>
+                                <span class="pr-review-header-byline"><strong>@pr.TenKh</strong> on <strong>@pr.ngay</strong></span>
+                            </div>
+                            <div class="pr-review-content">
+                                <p class="pr-review-content-body">@pr.Text</p>
+                            </div>
+                            @*<div class="pr-review-reply">
+                                    <p class="pr-review-reply-body">Thank you for your order</p>
+                                    <span class="pr-review-reply-shop">- Minimog main demo</span>
+                                </div>*@
+                            @*<div class="pr-review-footer rte">
+                                    <a href="#" class="pr-review-reportreview" onclick="reportReview(124135017);return false" id="report_@ViewBag.idSp" data-msg="This review has been reported">Report as Inappropriate</a>
+                                </div>*@
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

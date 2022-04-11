@@ -1,0 +1,147 @@
+﻿
+<div class="product-toolbar">
+    <div class="toolbar-wrapper">
+        <div class="flex items-center justify-between flex-wrap">
+            <div class="font-medium" data-toolbar-sorting="">
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>
+                            Size
+                        </span>
+                        <span class="select-arrow">
+                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <path d="M441.9 167.3l-19.8-19.8c-4.7-4.7-12.3-4.7-17 0L224 328.2 42.9 147.5c-4.7-4.7-12.3-4.7-17 0L6.1 167.3c-4.7 4.7-4.7 12.3 0 17l209.4 209.4c4.7 4.7 12.3 4.7 17 0l209.4-209.4c4.7-4.7 4.7-12.3 0-17z"></path>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="select-items hidden">
+                        @*@if(ViewBag.size != null){
+                            foreach (var p in ViewBag.size)
+                            {
+                                <div data-value="@p">
+                                    @p
+                                </div>
+                            }
+                        }*@
+                        @*<div class="same-as-selected">
+                            Size
+                        </div>*@
+                        <div data-value="S">
+                            S
+                        </div>
+                        <div data-value="M">
+                            M
+                        </div>
+                        <div data-value="L">
+                            L
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="font-medium" data-toolbar-sorting="">
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>
+                            HinhDang
+                        </span>
+                        <span class="select-arrow">
+                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <path d="M441.9 167.3l-19.8-19.8c-4.7-4.7-12.3-4.7-17 0L224 328.2 42.9 147.5c-4.7-4.7-12.3-4.7-17 0L6.1 167.3c-4.7 4.7-4.7 12.3 0 17l209.4 209.4c4.7 4.7 12.3 4.7 17 0l209.4-209.4c4.7-4.7 4.7-12.3 0-17z"></path>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="select-items hidden">
+                        @*@if (ViewBag.hd != null)
+        {
+            foreach (var p in ViewBag.hd)
+            {
+                <div data-value="@p">
+                    @p
+                </div>
+            }
+        }*@
+                        <div data-value="Cricle">
+                            Cricle
+                        </div>
+                        <div data-value="Retangular">
+                            Retangular
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="font-medium" data-toolbar-sorting="">
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>
+                            Tien
+                        </span>
+                        <span class="select-arrow">
+                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <path d="M441.9 167.3l-19.8-19.8c-4.7-4.7-12.3-4.7-17 0L224 328.2 42.9 147.5c-4.7-4.7-12.3-4.7-17 0L6.1 167.3c-4.7 4.7-4.7 12.3 0 17l209.4 209.4c4.7 4.7 12.3 4.7 17 0l209.4-209.4c4.7-4.7 4.7-12.3 0-17z"></path>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="select-items hidden">
+                        <div class="same-as-selected">
+                            Tien
+                        </div>
+                        <div>
+                            duoi $50
+                        </div>
+                        <div>
+                            $50 - $100
+                        </div>
+                        <div>
+                            $100 - $500
+                        </div>
+                        <div>
+                            tren $500
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="font-medium" data-toolbar-sorting="Featured">
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>
+                            Featured
+                        </span>
+                        <span class="select-arrow">
+                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <path d="M441.9 167.3l-19.8-19.8c-4.7-4.7-12.3-4.7-17 0L224 328.2 42.9 147.5c-4.7-4.7-12.3-4.7-17 0L6.1 167.3c-4.7 4.7-4.7 12.3 0 17l209.4 209.4c4.7 4.7 12.3 4.7 17 0l209.4-209.4c4.7-4.7 4.7-12.3 0-17z"></path>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="select-items hidden">
+                        @*<div class="same-as-selected">
+                            Featured
+                        </div>*@
+                        <div class="select_item" data-value="Best selling">
+                            Best selling
+                        </div>
+                        <div class="select_item" data-value="A-Z">
+                            Alphabetically, A-Z
+                        </div>
+                        <div class="select_item" data-value="Z-A">
+                            Alphabetically, Z-A
+                        </div>
+                        <div class="select_item" data-value="Price-asc">
+                            Price, low to high
+                        </div>
+                        <div class="select_item" data-value="Price-desc">
+                            Price, high to low
+                        </div>
+                        <div class="select_item" data-value="date-asc">
+                            Date, old to new
+                        </div>
+                        <div class="select_item" data-value="date-desc">
+                            Date, new to old
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

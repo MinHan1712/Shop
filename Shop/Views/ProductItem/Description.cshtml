@@ -1,0 +1,17 @@
+﻿@model Shop.Models.DB.SanPham
+
+
+<div class="tap-content" data-index="0">
+    <div class="customr-button hidden-sm hidden-md hidden-lg">Product description <i class="icon">></i> </div>
+    <div class="customr-container overflow-hd" style="display: none;">
+        <div class="row">
+            <div class="col-xs-12 col-md-6 hidden-xs">
+                <img src="@Url.Content("~/Content/images/Products/"+Model.Image+"")" style="max-width: 100%;" alt="">
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <h1 class="pr-title">@Model.TenSanPham</h1>
+                <p class="pr-decs">@Model.ThongTin</p>
+            </div>
+        </div>
+    </div>
+</div>
