@@ -20,7 +20,7 @@ namespace Shop.Controllers
         }
         public ActionResult ListCartTop()
         {
-            Session["UserId"] = 1;
+            //Session["UserId"] = 1;
             int idKh = (int)Session["UserId"];
             if (Session["UserId"] == null)
             {
@@ -35,63 +35,31 @@ namespace Shop.Controllers
                 {
                     sum += (int)i.SoLuong * (float)i.Tien * (100 - (int)i.GiamGia) / 100;
                 }
-                ViewBag.Sum = sum;
+                ViewBag.Sum = String.Format("{0:0,0.00}", sum);
                 ViewBag.IdKh = idKh;
                 return PartialView();
             }
         }
         public ActionResult ListCart()
         {
-            Session["UserId"] = 1;
-            int idKh = (int)Session["UserId"];
+            // Session["UserId"] = 1;
+
             if (Session["UserId"] == null)
             {
                 return PartialView();
             }
             else
             {
+                int idKh = (int)Session["UserId"];
                 var data = db.SanPham_Cart(idKh).ToList();
                 float sum = 0;
                 foreach (var i in data)
                 {
                     sum += (int)i.SoLuong * (float)i.Tien * (100 - (int)i.GiamGia) / 100;
                 }
-                ViewBag.Sum = sum;
+                ViewBag.Sum = String.Format("{0:0,0.00}", sum);
                 return PartialView(data);
             }
-
-
-            //var a = db.Carts.Join
-            //  (db.SanPhams, cart => cart.IdSp,
-            //  sp => sp.IdSp, (cart, sp) => new
-            //  {
-            //      IdKH = cart.IdKH,
-            //      IdSp = cart.IdSp,
-            //      Size = cart.Size,
-            //      SoLuong = cart.SoLuong,
-            //      GiamGia = cart.GiamGia,
-            //      TenSanPham = sp.TenSanPham,
-            //      Image = sp.Image,
-            //      HinhDang = sp.HinhDang,
-            //      Tien = sp.Tien
-            //  }).Where(cart => cart.IdKH == idKh).ToList();
-            //var data = db.SanPham_Cart(idKh);
-            //List<CartProduct> data = new List<CartProduct>();
-            //foreach (var i in a)
-            //{
-            //    CartProduct z = new CartProduct();
-
-            //    z.IdKH = (int)i.IdKH;
-            //    z.IdSp = (int)i.IdSp;
-            //    z.Size = (string)i.Size;
-            //    z.SoLuong = (int)i.SoLuong;
-            //    z.GiamGia = (int)i.GiamGia;
-            //    z.TenSanPham = (string)i.TenSanPham;
-            //    z.Image = (string)i.Image;
-            //    z.HinhDang = (string)i.HinhDang;
-            //    data.Add(z);
-            //}
-            //return PartialView(data);
         }
         public ActionResult MainOrder()
         {
@@ -112,7 +80,7 @@ namespace Shop.Controllers
         }
         public JsonResult ValidateOrder(DatHang dh)
         {
-            Session["UserId"] = 1;
+            // Session["UserId"] = 1;
             if (Session["UserId"] == null)
             {
                 return Json("Login", JsonRequestBehavior.AllowGet);

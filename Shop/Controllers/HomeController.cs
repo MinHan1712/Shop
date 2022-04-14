@@ -2,6 +2,7 @@
 using Shop.Models.DB;
 using System;
 using System.Collections.Generic;
+using System.Data.Linq.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -27,16 +28,22 @@ namespace Shop.Controllers
             if (Session["UserId"] != null)
             {
                 int idKh = Int32.Parse(Session["UserId"].ToString());
-                int cartCount = db.Carts.Where(s => s.IdKH == idKh).Count();
-                ViewBag.count = cartCount;
+                int cartCount = db.Carts.Where(s => s.IdKH == idKh).ToList().Count();
+                ViewBag.count1 = cartCount;
+
+                var data = db.LoaiSanPhams.AsEnumerable();
+                ViewBag.count = data.Count();
+                return PartialView(data);
+
             }
             else
             {
-                ViewBag.count = 0;
+                ViewBag.count1 = 0;
+                var data = db.LoaiSanPhams.AsEnumerable();
+                ViewBag.count = data.Count();
+                return PartialView(data);
             }
-            var data = db.LoaiSanPhams.AsEnumerable();
-            ViewBag.count = data.Count();
-            return PartialView(data);
+
         }
         [ChildActionOnly]
         public ActionResult HeaderToggle()
@@ -93,10 +100,20 @@ namespace Shop.Controllers
         }
         public ActionResult ProductHot()
         {
-            var data = db.Product_Hot().Take(10);
+            var data = db.Product_Hot().Take(8);
             return PartialView(data);
         }
 
+        public ActionResult Search()
+        {
+            return PartialView();
+        }
 
+        public ActionResult SearchProduct(string a = "")
+        {
+            var data = db.SanPhams.Where(s => s.TenSanPham.Contains(a) == true).AsEnumerable();
+            return PartialView(data);
+        }
     }
 }
+

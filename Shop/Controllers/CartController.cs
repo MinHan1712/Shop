@@ -18,27 +18,28 @@ namespace Shop.Controllers
         }
         public ActionResult ListCart()
         {
-            Session["UserId"] = 1;
-            int idKh = (int)Session["UserId"];
+
             if (Session["UserId"] == null)
             {
                 return PartialView();
             }
             else
             {
+                int idKh = (int)Session["UserId"];
                 var data = db.SanPham_Cart(idKh);
                 return PartialView(data);
             }
         }
         public ActionResult CartSum()
         {
-            int idKh = (int)Session["UserId"];
+
             if (Session["UserId"] == null)
             {
                 return PartialView();
             }
             else
             {
+                int idKh = (int)Session["UserId"];
                 var data = db.SanPham_Cart(idKh);
                 float sum = 0;
                 foreach (var p in data)
@@ -51,8 +52,6 @@ namespace Shop.Controllers
         }
         public JsonResult AddProduct(Cart cart)
         {
-            Session["UserId"] = 1;
-            //string idKh = Session["UserId"].ToString();
             if (Session["UserId"] == null)
             {
                 return Json("Login", JsonRequestBehavior.AllowGet);
@@ -85,7 +84,6 @@ namespace Shop.Controllers
         }
         public JsonResult UpdateQuantity(Cart cart)
         {
-            Session["UserId"] = 1;
             if (Session["UserId"] == null)
             {
                 return Json("Login", JsonRequestBehavior.AllowGet);
@@ -103,8 +101,6 @@ namespace Shop.Controllers
         }
         public JsonResult RemoveCart(int IdSp, string size)
         {
-            Session["UserId"] = 1;
-            //string idKh = Session["UserId"].ToString();
             if (Session["UserId"] == null)
             {
                 return Json("Login", JsonRequestBehavior.AllowGet);
@@ -133,3 +129,4 @@ namespace Shop.Controllers
         }
     }
 }
+

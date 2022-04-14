@@ -22,29 +22,39 @@ namespace Shop.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult FormLogin(KhachHang login)
+        public ActionResult FormLogin(KhachHang khach)
         {
 
-            try
+
+            //if (ModelState.IsValid)
+            //{
+            khach.Password = Encyptor.MD5Hash(khach.Password);
+            var check = db.KhachHangs.Where(s => s.Email == khach.Email && s.Password == khach.Password).FirstOrDefault();
+            if (check != null)
             {
-                if (ModelState.IsValid)
-                {
-                    login.Password = Encyptor.MD5Hash(login.Password);
-                    var check = db.KhachHangs.Where(s => s.Email == login.Email && s.Password.Equals(login.Password)).ToList();
-                    if (check.Count() > 0)
-                    {
-                        Session["UserId"] = check.FirstOrDefault().IdKh;
-                        return Redirect("~/Home/Index");
-                    }
-                }
-
-                return PartialView();
-
+                Session["UserId"] = check.IdKh;
+                return Redirect("~/Home/Index");
             }
-            catch (Exception)
+            else
             {
+                ViewBag.error = "Email hoac mat khau khong dung";
                 return PartialView();
             }
+            //}
+            //else
+            //{
+            //    ViewBag.error = "Email hoac mat khau khong dung";
+            //    return PartialView();
+            //}
+            //ViewBag.error = "Email hoac mat khau khong dung";
+            //return PartialView();
+
         }
+        //catch (Exception)
+        //{
+        //    ViewBag.error = "Email hoac mat khau khong dung";
+        //    return PartialView();
+        //}
+        //}
     }
 }

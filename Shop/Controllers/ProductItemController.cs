@@ -16,11 +16,18 @@ namespace Shop.Controllers
         {
             //idSp = 11;
 
-            var sp = db.SanPhams.Where(s => s.IdSp == id).Select(s => new { idlsp = s.IdLoaiSp, name = s.TenSanPham }).FirstOrDefault();
+            var sp = db.SanPhams.Where(s => s.IdSp == id).Select(s => new
+            {
+                idlsp = s.IdLoaiSp,
+                name = s.TenSanPham,
+                hinhdang = s.HinhDang
+            }).FirstOrDefault();
             string TenLsp = db.LoaiSanPhams.Where(s => s.IdLoaisp == sp.idlsp).Select(s => s.TenLsp).FirstOrDefault();
             ViewBag.idSp = id;
             ViewBag.tenlsp = TenLsp;
             ViewBag.tenSp = sp.name;
+            ViewBag.idlsp = sp.idlsp;
+            ViewBag.hinhdang = sp.hinhdang;
             return View();
         }
         public ActionResult productItem(int id)
@@ -56,7 +63,7 @@ namespace Shop.Controllers
                    idSp = bl.IdSp,
                    sao = bl.sao,
                    titleText = bl.TitleText
-               }).Where(bl => bl.idSp == id).ToList();
+               }).Where(bl => bl.idSp == id).OrderByDescending(bl => bl.ngay).ToList();
 
             List<ReviewProduct> data = new List<ReviewProduct>();
             float sumSao = 0;
@@ -89,7 +96,7 @@ namespace Shop.Controllers
             return PartialView();
         }
         //[HttpPost]
-        // lõi không thêm được sản phẩm vào bình luận
+
         public JsonResult Write(BinhLuan data)
         {
 
@@ -100,20 +107,20 @@ namespace Shop.Controllers
                 LastName = s.LastName
             }).FirstOrDefault();
             data.IdKh = idKh;
-            db.BinhLuans.Add(data);
+            data.Create_date = DateTime.Now;
+            var c = db.BinhLuans.Add(data);
             db.SaveChanges();
+
             try
             {
-                var sel = db.BinhLuans.Where(s => s.IdKh == idKh && s.IdSp == data.IdSp).LastOrDefault();
-
                 string TenKh = kh.FirstName + " " + kh.LastName;
                 ReviewProduct write = new ReviewProduct();
-                write.ngay = sel.Create_date;
+                write.ngay = data.Create_date;
                 write.TenKh = TenKh;
-                write.idbl = sel.IdBinhLuan;
+                write.idbl = c.IdBinhLuan;
                 write.idSp = (int)data.IdSp;
 
-                return Json(data, JsonRequestBehavior.AllowGet);
+                return Json(write, JsonRequestBehavior.AllowGet);
             }
             catch
             {
@@ -121,9 +128,38 @@ namespace Shop.Controllers
             }
 
         }
-        public ActionResult ab()
+        public ActionResult ProductSimilar(int idlsp, string hinhdang)
         {
-            return PartialView();
+            List<SanPham> data = new List<SanPham>();
+
+            if (hinhdang == null || hinhdang == "")
+            {
+                data = db.SanPhams.Where(s => s.IdLoaiSp == idlsp).OrderByDescending(s => s.Tien).ToList();
+            }
+            else
+            {
+                data = db.SanPhams.Where(s => s.IdLoaiSp == idlsp).OrderByDescending(s => s.Tien).ToList();
+            }
+            if (data.Count() < 8 && (hinhdang == null || hinhdang == ""))
+            {
+                var da = db.SanPhams.Where(s => s.HinhDang != hinhdang && s.IdLoaiSp == idlsp).Take(8 - data.Count());
+                foreach (var sp in da)
+                {
+                    data.Add(sp);
+                }
+            }
+            if (data.Count() < 8 && (hinhdang == null || hinhdang == ""))
+            {
+                var da = db.SanPhams.Where(s => s.HinhDang != hinhdang && s.IdLoaiSp != idlsp).Take(8 - data.Count());
+                foreach (var sp in da)
+                {
+                    data.Add(sp);
+                }
+            }
+            return PartialView(data);
+
+
         }
+
     }
 }

@@ -11,7 +11,6 @@ namespace Shop.Controllers
     {
         // GET: Product
         ShopEntities db = new ShopEntities();
-        //[Route("Shop/{id}")] // Url phù hợp = /abc-learnasp-xyztest
         public ActionResult Index(int? id)
         {
 
@@ -59,7 +58,7 @@ namespace Shop.Controllers
             return PartialView();
         }
         // loi phan trang
-        public ActionResult Page(int? page, int id)
+        public ActionResult Page(int? page, int? id, string name = "")
         {
             int pagesize = 5;
 
@@ -67,49 +66,142 @@ namespace Shop.Controllers
             {
                 page = 1;
             }
-            if (id == -1)
-            {
-                var result = db.SanPhams.OrderByDescending(p => p.Create_date).Skip((int)((page - 1) * pagesize)).Take(pagesize);
-                return PartialView(result);
-            }
-            else
-            {
-                var result = db.SanPhams.Where(s => s.IdLoaiSp == id).OrderByDescending(p => p.Create_date).Skip((int)((page - 1) * pagesize)).Take(pagesize);
 
-                return PartialView(result);
-            }
+            int start = (int)((page - 1) * pagesize);
+            int end = start + pagesize;
 
-        }
-        public JsonResult FeaturedSort(string name, int idlsp)
-        {
 
             switch (name)
             {
-                case "Best selling":
-                    var bs = db.Product_Hot();
-                    return Json(bs, JsonRequestBehavior.AllowGet);
                 case "A-Z":
-                    var az = db.SanPhams.Where(s => s.IdLoaiSp == idlsp).OrderBy(s => s.TenSanPham);
-                    return Json(az, JsonRequestBehavior.AllowGet);
+                    var az = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).OrderBy(s => s.TenSanPham).ToList() :
+                        db.SanPhams.OrderBy(s => s.TenSanPham).ToList();
+                    if (start >= az.Count())
+                    {
+                        return PartialView();
+                    }
+                    end = end >= az.Count() ? az.Count() - 1 : end;
+                    List<SanPham> a = new List<SanPham>();
+                    for (int i = start; i <= end; i++)
+                    {
+                        a.Add(az[i]);
+                    }
+                    return PartialView(a);
                 case "Z-A":
-                    var za = db.SanPhams.Where(s => s.IdLoaiSp == idlsp).OrderByDescending(s => s.TenSanPham);
-                    return Json(za, JsonRequestBehavior.AllowGet);
+                    var za = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).OrderByDescending(s => s.TenSanPham).ToList() :
+                        db.SanPhams.OrderByDescending(s => s.TenSanPham).ToList();
+                    if (start >= za.Count())
+                    {
+                        return PartialView();
+                    }
+                    end = end >= za.Count() ? za.Count() - 1 : end;
+                    List<SanPham> a1 = new List<SanPham>();
+                    for (int i = start; i <= end; i++)
+                    {
+                        a1.Add(za[i]);
+                    }
+                    return PartialView(a1);
                 case "Price-asc":
-                    var pa = db.SanPhams.Where(s => s.IdLoaiSp == idlsp).OrderBy(s => s.Tien);
-                    return Json(pa, JsonRequestBehavior.AllowGet);
+                    var pa = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).OrderBy(s => s.Tien).ToList() :
+                        db.SanPhams.OrderBy(s => s.Tien).ToList();
+                    if (start >= pa.Count())
+                    {
+                        return PartialView();
+                    }
+                    end = end >= pa.Count() ? pa.Count() - 1 : end;
+                    List<SanPham> a2 = new List<SanPham>();
+                    for (int i = start; i <= end; i++)
+                    {
+                        a2.Add(pa[i]);
+                    }
+                    return PartialView(a2);
                 case "Price-desc":
-                    var pd = db.SanPhams.Where(s => s.IdLoaiSp == idlsp).OrderByDescending(s => s.Tien);
-                    return Json(pd, JsonRequestBehavior.AllowGet);
+                    var pd = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).OrderByDescending(s => s.Tien).ToList() :
+                        db.SanPhams.OrderByDescending(s => s.Tien).ToList();
+                    if (start >= pd.Count())
+                    {
+                        return PartialView();
+                    }
+                    end = end >= pd.Count() ? pd.Count() - 1 : end;
+                    List<SanPham> a3 = new List<SanPham>();
+                    for (int i = start; i <= end; i++)
+                    {
+                        a3.Add(pd[i]);
+                    }
+                    return PartialView(a3);
                 case "date-asc":
-                    var da = db.SanPhams.Where(s => s.IdLoaiSp == idlsp).OrderBy(s => s.Create_date);
-                    return Json(da, JsonRequestBehavior.AllowGet);
+                    var da = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).OrderBy(s => s.Create_date).ToList() :
+                        db.SanPhams.OrderBy(s => s.Create_date).ToList();
+                    if (start >= da.Count())
+                    {
+                        return PartialView();
+                    }
+                    end = end >= da.Count() ? da.Count() - 1 : end;
+                    List<SanPham> a4 = new List<SanPham>();
+                    for (int i = start; i <= end; i++)
+                    {
+                        a4.Add(da[i]);
+                    }
+                    return PartialView(a4);
                 case "date-desc":
-                    var dd = db.SanPhams.Where(s => s.IdLoaiSp == idlsp).OrderBy(s => s.Create_date);
-                    return Json(dd, JsonRequestBehavior.AllowGet);
+                    var dd = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).OrderByDescending(s => s.Create_date).ToList() :
+                        db.SanPhams.OrderByDescending(s => s.Create_date).ToList();
+                    if (start >= dd.Count())
+                    {
+                        return PartialView();
+                    }
+                    end = end >= dd.Count() ? dd.Count() - 1 : end;
+                    List<SanPham> a5 = new List<SanPham>();
+                    for (int i = start; i <= end; i++)
+                    {
+                        a5.Add(dd[i]);
+                    }
+                    return PartialView(a5);
+                default:
+                    var data = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).ToList() :
+                db.SanPhams.ToList();
+                    if (start >= data.Count())
+                    {
+                        return PartialView();
+                    }
+                    end = end >= data.Count() ? data.Count() - 1 : end;
+
+                    List<SanPham> a6 = new List<SanPham>();
+                    for (int i = start; i <= end; i++)
+                    {
+                        a6.Add(data[i]);
+                    }
+                    return PartialView(a6);
+            }
+        }
+        public ActionResult FeaturedSort(string name, int? id)
+        {
+            switch (name)
+            {
+                case "A-Z":
+                    var az = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).OrderBy(s => s.TenSanPham).Take(5) : db.SanPhams.OrderBy(s => s.TenSanPham).Take(5);
+                    return PartialView(az);
+                case "Z-A":
+                    var za = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).OrderByDescending(s => s.TenSanPham).Take(5) : db.SanPhams.OrderByDescending(s => s.TenSanPham).Take(5);
+                    return PartialView(za);
+                case "Price-asc":
+                    var pa = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).OrderBy(s => s.Tien).Take(5) : db.SanPhams.OrderBy(s => s.Tien).Take(5);
+                    return PartialView(pa);
+                case "Price-desc":
+                    var pd = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).OrderByDescending(s => s.Tien).Take(5) : db.SanPhams.OrderByDescending(s => s.Tien).Take(5);
+                    return PartialView(pd);
+                case "date-asc":
+                    var da = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).OrderBy(s => s.Create_date).Take(5) : db.SanPhams.OrderBy(s => s.Create_date).Take(5);
+                    return PartialView(da);
+                case "date-desc":
+                    var dd = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).OrderByDescending(s => s.Create_date).Take(5) : db.SanPhams.OrderByDescending(s => s.Create_date).Take(5);
+                    return PartialView(dd);
+                default:
+                    var data = id != -1 ? db.SanPhams.Where(s => s.IdLoaiSp == id).Take(5) : db.SanPhams.Take(5);
+                    return PartialView(data);
             }
 
-            var data = db.SanPhams;
-            return Json(data, JsonRequestBehavior.AllowGet);
         }
+
     }
 }

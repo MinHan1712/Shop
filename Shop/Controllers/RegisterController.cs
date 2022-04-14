@@ -25,12 +25,13 @@ namespace Shop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult FormRegister(KhachHang khachHang)
         {
-            try
+
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                var check = db.KhachHangs.Where(s => s.Email == khachHang.Email);
+                if (check.Count() == 0)
                 {
-                    var check = db.KhachHangs.FirstOrDefault(s => s.Email == khachHang.Email);
-                    if (check == null)
+                    if (khachHang.Password != "")
                     {
                         khachHang.Password = Encyptor.MD5Hash(khachHang.Password);
                         db.Configuration.ValidateOnSaveEnabled = false;
@@ -41,16 +42,17 @@ namespace Shop.Controllers
                     }
                     else
                     {
-                        ViewBag.error = "Email da ton tai";
                         return PartialView();
                     }
-
+                }
+                else
+                {
+                    ViewBag.error = "Email da ton tai";
+                    return PartialView();
                 }
 
-                return PartialView();
-
             }
-            catch (Exception)
+            else
             {
                 return PartialView();
             }
