@@ -18,11 +18,10 @@
 }
 MenuHeaderFixed();
 
-
+$('#header-toogle').css({ 'height': $(window).height()+'px'});
 var childrenNavMenu = '';
 
 document.querySelector('.menu-button').onclick = () => {
-    alert('nhan')
     document.getElementById('header-toogle').classList.add('active');
     document.querySelector('#header-toogle .header-toogle-content').classList.remove('hidden');
     document.getElementById('mn-blocker').classList.add('active');

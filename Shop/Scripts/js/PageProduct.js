@@ -13,11 +13,13 @@ $('.page-pagination p').click(function () {
     console.log($(this).attr('data-page'));
     var pag = $(this).attr('data-page');
     var idlsp = $(this).attr('data-idlsp');
+    var nam = $('.product-toolbar .font-medium .select-items .select_item.same-as-selected');
     var data = {
         page: parseInt(pag) + 1,
-        id: parseInt(idlsp) == NaN ? -1 : parseInt(idlsp);
+        id: idlsp.trim() == "" ? -1 : parseInt(idlsp),
+        name: nam.attr('data-value') == undefined || nam.attr('data-value') == "" ? "no" : nam.attr('data-value')
     }
-    console.log(data.page, data.id);
+    console.log(data);
     $.ajax({
         url: "/Product/Page",
         type: "POST",
@@ -25,9 +27,12 @@ $('.page-pagination p').click(function () {
         contentType: "application/json; charset=utf-8",
         dataType: "html",
         success: function (response) {
-            console.log(response);
-            $('#mainProduct .product-list .row').append(response);
-            var pag = $(this).attr({'data-page' : Number(pag) + 1});
+            if (response != "" || response != null) {
+                $('#mainProduct .product-list .row').append(response);
+                $('.page-pagination p').attr({ 'data-page': data.page });
+            } else {
+                $('.page-pagination p').css({ 'display': 'none' });
+            }
         },
         error: function () {
 
@@ -43,17 +48,17 @@ $('.product-toolbar .font-medium .select-items .select_item').click(function () 
         $(this).addClass('same-as-selected')
         var data = {
             name: $(this).attr('data-value'),
-            idlsp: parseInt(idlsp)
+            id: idlsp.trim() == "" ? -1 : parseInt(idlsp)
         }
-        console.log(data);
         $.ajax({
             url: "/Product/FeaturedSort",
             type: "POST",
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            dataType: "html",
             success: function (response) {
-                console.log(response);
+                /*console.log(response);*/
+                $('#mainProduct .product-list').html(response);
             },
             error: function () {
 

@@ -82,24 +82,18 @@ $('.inf_form-order form#form_order button[name="submit"]').click(function () {
                     $('.erorr_page.error_' + index, par).html(value);
                 });
             }
-            //if (response == "Login") {
-            //    window.location = "https://localhost:44355/Login/login";
-            //}
-            //if (response == "Success") {
-            //    $.each($(`.main-cart .cart__form .cart__item`), function (index, value) {
-
-            //        var id = $(this).attr('data-id').trim();
-            //        var siz = $(this).attr('data-size').trim();
-            //        console.log(id, siz);
-            //        if (id == idSp && siz == size.trim()) {
-            //            value.remove();
-            //        }
-            //    });
-            //    var sl = $('.ico-cart .cart-count').html();
-            //    $('.ico-cart .cart-count').html(parseInt(sl) - 1);
-            //    var money = $('.cart__summary .cart-subtotal__price').html();
-            //    $('.cart__summary .cart-subtotal__price').html('$' + parseFloat(money) - parseFloat(moneyRemove));
-            //}
+            
+            if (response == "Login") {
+                window.location = "https://localhost:44355/Login/login";
+            }
+            if (response == "Success") {
+                alert("Dat hang thanh cong");
+                window.location = "https://localhost:44355";
+            } else {
+                $.each(response, function (index, value) {
+                    $('.erorr_page.error_' + index, par).html(value);
+                });
+            }
 
 
         },
